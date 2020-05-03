@@ -50,6 +50,12 @@ class GildedRoseTest {
     }
 
     @Test
+    void shouldDecreaseQualityFourEachUpdate() {
+        assertCalculatedValues(getDecreaseFourQualityItems(),
+                new GildedRose(getDecreaseFourQualityItems()), CalcQuality.DECREASETOZERO);
+    }
+
+    @Test
     void shouldPrintPropsCorrectly() {
         Item item = new Item("Elixir of the Mongoose", 5, 7);
         assertEquals(item.toString(), item.name + ", " + item.sellIn + ", " + item.quality);
@@ -94,7 +100,14 @@ class GildedRoseTest {
 
     private Item[] getDecreaseTwiceQualityItems() {
         return new Item[]{
-                new Item("Elixir of the Mongoose", 0, 7)
+                new Item("Elixir of the Mongoose", 0, 7),
+                new Item("Conjured Mana Cake", 3, 6)
+        };
+    }
+
+    private Item[] getDecreaseFourQualityItems() {
+        return new Item[]{
+                new Item("Conjured Mana Cake", 0, 7)
         };
     }
 
@@ -145,10 +158,13 @@ class GildedRoseTest {
         if (calcQuality.equals(CalcQuality.DECREASETOZERO)) {
             return 0;
         }
+        if (calcQuality.equals(CalcQuality.DECREASEFOUR)) {
+            return quality - (day * 4);
+        }
         return quality;
     }
 }
 
 enum CalcQuality {
-    INCREASE, DECREASE, NOTHING, INCREASETWICE, INCREASETHREE, DECREASETWICE, DECREASETOZERO
+    INCREASE, DECREASE, NOTHING, INCREASETWICE, INCREASETHREE, DECREASETWICE, DECREASETOZERO, DECREASEFOUR
 }
