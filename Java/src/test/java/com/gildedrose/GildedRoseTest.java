@@ -52,7 +52,7 @@ class GildedRoseTest {
     @Test
     void shouldDecreaseQualityFourEachUpdate() {
         assertCalculatedValues(getDecreaseFourQualityItems(),
-                new GildedRose(getDecreaseFourQualityItems()), CalcQuality.DECREASETOZERO);
+                new GildedRose(getDecreaseFourQualityItems()), CalcQuality.DECREASEFOUR);
     }
 
     @Test
