@@ -8,12 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GildedRoseTest {
     @Test
-    void shouldDecreaseQualityEachUpdate() {
-        assertCalculatedValues(getDecreaseQualityItems(),
-                new GildedRose(getDecreaseQualityItems()), CalcQuality.DECREASE);
-    }
-
-    @Test
     void shouldIncreaseQualityEachUpdate() {
         assertCalculatedValues(getIncreaseQualityItems(),
                 new GildedRose(getIncreaseQualityItems()), CalcQuality.INCREASE);
@@ -38,6 +32,18 @@ class GildedRoseTest {
     }
 
     @Test
+    void shouldIncreaseQualityTo50EachUpdate() {
+        assertCalculatedValues(getIncreaseTo50QualityItems(),
+                new GildedRose(getIncreaseTo50QualityItems()), CalcQuality.INCREASETO50);
+    }
+
+    @Test
+    void shouldDecreaseQualityEachUpdate() {
+        assertCalculatedValues(getDecreaseQualityItems(),
+                new GildedRose(getDecreaseQualityItems()), CalcQuality.DECREASE);
+    }
+
+    @Test
     void shouldDecreaseQualityTwiceEachUpdate() {
         assertCalculatedValues(getDecreaseTwiceQualityItems(),
                 new GildedRose(getDecreaseTwiceQualityItems()), CalcQuality.DECREASETWICE);
@@ -47,6 +53,12 @@ class GildedRoseTest {
     void shouldDecreaseQualityToZeroEachUpdate() {
         assertCalculatedValues(getDecreaseToZeroQualityItems(),
                 new GildedRose(getDecreaseToZeroQualityItems()), CalcQuality.DECREASETOZERO);
+    }
+
+    @Test
+    void shouldDecreaseQualityFourEachUpdate() {
+        assertCalculatedValues(getDecreaseFourQualityItems(),
+                new GildedRose(getDecreaseFourQualityItems()), CalcQuality.DECREASEFOUR);
     }
 
     @Test
@@ -71,14 +83,6 @@ class GildedRoseTest {
         };
     }
 
-    private Item[] getDecreaseQualityItems() {
-        return new Item[]{
-                new Item("+5 Dexterity Vest", 10, 20),
-                new Item("Elixir of the Mongoose", 5, 7),
-                new Item("Elixir of the Mongoose", 1, 7)
-        };
-    }
-
     private Item[] getIncreaseTwiceQualityItems() {
         return new Item[]{
                 new Item("Backstage passes to a TAFKAL80ETC concert", 10, 20),
@@ -92,9 +96,31 @@ class GildedRoseTest {
         };
     }
 
+    private Item[] getIncreaseTo50QualityItems() {
+        return new Item[]{
+                new Item("Backstage passes to a TAFKAL80ETC concert", 5, 50),
+                new Item("Aged Brie", 5, 50)
+        };
+    }
+
+    private Item[] getDecreaseQualityItems() {
+        return new Item[]{
+                new Item("+5 Dexterity Vest", 10, 20),
+                new Item("Elixir of the Mongoose", 5, 7),
+                new Item("Elixir of the Mongoose", 1, 7)
+        };
+    }
+
     private Item[] getDecreaseTwiceQualityItems() {
         return new Item[]{
-                new Item("Elixir of the Mongoose", 0, 7)
+                new Item("Elixir of the Mongoose", 0, 7),
+                new Item("Conjured Mana Cake", 3, 6)
+        };
+    }
+
+    private Item[] getDecreaseFourQualityItems() {
+        return new Item[]{
+                new Item("Conjured Mana Cake", 0, 7)
         };
     }
 
@@ -127,9 +153,6 @@ class GildedRoseTest {
     }
 
     private int getQualityCalculated(int quality, CalcQuality calcQuality, int day) {
-        if (calcQuality.equals(CalcQuality.DECREASE)) {
-            return quality - day;
-        }
         if (calcQuality.equals(CalcQuality.INCREASE)) {
             return quality + day;
         }
@@ -139,16 +162,26 @@ class GildedRoseTest {
         if (calcQuality.equals(CalcQuality.INCREASETHREE)) {
             return quality + (day * 3);
         }
+        if (calcQuality.equals(CalcQuality.INCREASETO50)) {
+            return 50;
+        }
+        if (calcQuality.equals(CalcQuality.DECREASE)) {
+            return quality - day;
+        }
         if (calcQuality.equals(CalcQuality.DECREASETWICE)) {
             return quality - (day * 2);
         }
         if (calcQuality.equals(CalcQuality.DECREASETOZERO)) {
             return 0;
         }
+        if (calcQuality.equals(CalcQuality.DECREASEFOUR)) {
+            return quality - (day * 4);
+        }
         return quality;
     }
 }
 
 enum CalcQuality {
-    INCREASE, DECREASE, NOTHING, INCREASETWICE, INCREASETHREE, DECREASETWICE, DECREASETOZERO
+    INCREASE, INCREASETWICE, INCREASETHREE, INCREASETO50, NOTHING,
+    DECREASE, DECREASETWICE, DECREASETOZERO, DECREASEFOUR
 }
